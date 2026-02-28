@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.get("/elders", getElders);
-router.get("/elder/:elderId/sessions", getElderSessions);
+router.get("/elders", authCaregiver, getElders);
+router.get("/elder/:elderId/sessions", authCaregiver, getElderSessions);
 
 export default router;

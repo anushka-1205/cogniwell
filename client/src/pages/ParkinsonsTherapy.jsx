@@ -19,6 +19,7 @@ export default function ParkinsonsTherapy({ onFinish }) {
     return () => window.removeEventListener("languageChange", handleLangChange);
   }, []);
 
+  // prevent scroll value loss
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.body.style.height = "100vh";
@@ -62,9 +63,9 @@ export default function ParkinsonsTherapy({ onFinish }) {
       result: "completed",
       metrics: {
         parkinson: {
-          tapsPerSecond: null,
+          tapsPerSecond: null, // deprecated now
           correctTaps: totalShapes,
-          time: parseFloat(totalTimeSec.toFixed(2)),
+          time: parseFloat(totalTimeSec.toFixed(2)), // total time in seconds with decimals
         },
       },
     };

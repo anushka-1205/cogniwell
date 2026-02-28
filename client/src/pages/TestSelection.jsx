@@ -41,10 +41,11 @@ export default function TestSelection() {
     </button>
   );
 
+  // Decide whether test or therapy should be shown
   const shouldTakeTest = (disorderData) => {
-    if (!disorderData) return true;
-    if (disorderData.color === "green") return true;
-    return false;
+    if (!disorderData) return true; // no result yet → show Test
+    if (disorderData.color === "green") return true; // green → Test
+    return false; // red or yellow → Therapy
   };
 
   return (

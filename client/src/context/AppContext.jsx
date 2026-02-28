@@ -12,22 +12,16 @@ export const AppProvider = ({ children }) => {
   const [role, setRole] = useState(() => localStorage.getItem("cachedRole"));
   const [loading, setLoading] = useState(false);
   const [initialized, setInitialized] = useState(false);
-  const [reloading, setReloading] = useState(false);
+  const [reloading, setReloading] = useState(false); 
 
-  const axios = useMemo(() => {
-    const instance = axiosLib.create({
-      baseURL: import.meta.env.VITE_BACKEND_URL,
-    });
-
-    // Attach token on every request
-    instance.interceptors.request.use((config) => {
-      const token = localStorage.getItem("authToken");
-      if (token) config.headers.Authorization = `Bearer ${token}`;
-      return config;
-    });
-
-    return instance;
-  }, []);
+  const axios = useMemo(
+    () =>
+      axiosLib.create({
+        baseURL: import.meta.env.VITE_BACKEND_URL,
+        withCredentials: true,
+      }),
+    []
+  );
 
   const cacheSession = (user, role) => {
     if (user && role) {
@@ -39,6 +33,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  
   const checkAuth = async () => {
     try {
       const [userRes, caregiverRes] = await Promise.allSettled([
@@ -78,10 +73,12 @@ export const AppProvider = ({ children }) => {
     checkAuth();
   }, []);
 
+  
   const refreshUser = async () => {
     await checkAuth();
   };
 
+  
   const showTemporaryLoader = async (duration = 700) => {
     setReloading(true);
     return new Promise((resolve) => {
@@ -92,6 +89,7 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  
   const signup = async (form, navigate) => {
     try {
       const { data } = await axios.post("/api/user/register", form);
@@ -106,11 +104,11 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  
   const loginUser = async (email, password, navigate) => {
     try {
       const { data } = await axios.post("/api/user/login", { email, password });
       if (data.success) {
-        localStorage.setItem("authToken", data.token);
         setUser(data.user);
         setRole("user");
         cacheSession(data.user, "user");
@@ -124,6 +122,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  
   const loginCaregiver = async (email, password, navigate) => {
     try {
       const { data } = await axios.post("/api/caregiver/login", {
@@ -132,13 +131,13 @@ export const AppProvider = ({ children }) => {
       });
 
       if (data.success) {
-        localStorage.setItem("authToken", data.token);
         setUser(data.caregiver);
         setRole("caregiver");
         cacheSession(data.caregiver, "caregiver");
 
-        await refreshUser();
-        await showTemporaryLoader();
+        
+        await refreshUser(); 
+        await showTemporaryLoader(); 
         navigate("/caregiver/dashboard");
 
         return { success: true };
@@ -150,14 +149,23 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+
+
+
+  
   const logout = async (navigate) => {
-    localStorage.removeItem("authToken");
-    setUser(null);
-    setRole(null);
-    cacheSession(null, null);
-    await showTemporaryLoader();
-    navigate("/");
-    setTimeout(() => window.location.reload(), 300);
+    try {
+      if (role === "caregiver") await axios.get("/api/caregiver/logout");
+      else if (role === "user") await axios.get("/api/user/logout");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setUser(null);
+      setRole(null);
+      cacheSession(null, null);
+      await showTemporaryLoader();
+      navigate("/");
+    }
   };
 
   return (

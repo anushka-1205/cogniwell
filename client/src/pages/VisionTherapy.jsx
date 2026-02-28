@@ -93,7 +93,7 @@ export default function VisionTherapyPage() {
     }
 
     try {
-      await axios.put("/api/user/update-disease-status", { d3: true });
+      await axios.put("/api/user/update-disease-status", { d3: false });
       if (typeof updateUserFlag === "function") updateUserFlag("d3");
       if (typeof refreshUser === "function") refreshUser();
     } catch (err) {
@@ -159,6 +159,7 @@ export default function VisionTherapyPage() {
                 height: leftValue,
                 borderRadius: "50%",
                 background: `rgba(255,255,255,0.85)`,
+                display: "block",
               }}
             />
           </button>
@@ -174,6 +175,7 @@ export default function VisionTherapyPage() {
                 height: rightValue,
                 borderRadius: "50%",
                 background: `rgba(255,255,255,0.85)`,
+                display: "block",
               }}
             />
           </button>
@@ -201,6 +203,11 @@ export default function VisionTherapyPage() {
             : `Correct: ${correctCount} / ${TOTAL_TRIALS}`}
         </p>
 
+        <p className="text-2xl text-gray-300 mb-6">
+          {isHindi
+            ? `अंतिम थ्रेशहोल्ड: ${difference}`
+            : `Final Threshold: ${difference}`}
+        </p>
 
         <button
           className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-xl text-2xl font-semibold mb-3"

@@ -141,7 +141,7 @@ export default function DementiaTestPage() {
     if (clickedThisNumber) return;
 
     const i = indexRef.current;
-    if (i < level) return;
+    if (i < level) return; // only valid opportunity when index >= level
 
     setClickedThisNumber(true);
     setAttempts((a) => a + 1);
@@ -238,6 +238,7 @@ export default function DementiaTestPage() {
       else status = "Red";
     }
 
+    // SHOW result immediately (includes per-level breakdown)
     setFinished(true);
     setStarted(false);
     setResult({
@@ -251,7 +252,7 @@ export default function DementiaTestPage() {
     });
     sessionStartRef.current = 0;
 
-
+    // THEN send to backend (always record session)
     try {
       await axios.post("/api/game-session/record", {
         diseaseType: "dementia",
@@ -266,7 +267,8 @@ export default function DementiaTestPage() {
         },
       });
 
-
+      // IMPORTANT: only update user disease/therapy flag if the user did NOT stop the game manually.
+      // If userStopped is true (Stop Playing pressed), skip updating disease status / therapy flag in backend.
       if ((status === "Red" || status === "Yellow") && !userStopped) {
         await axios.put("/api/user/update-disease-status", { d2: true });
         updateUserFlag("d2");
@@ -305,7 +307,7 @@ export default function DementiaTestPage() {
   };
 
   const handleTherapyFinish = () => {
-    // alert(isHindi ? "थेरेपी सत्र पूरा हुआ!" : "Therapy session completed!");
+    alert(isHindi ? "थेरेपी सत्र पूरा हुआ!" : "Therapy session completed!");
     setShowTherapy(false);
     setShowReady(true);
   };
@@ -426,6 +428,7 @@ export default function DementiaTestPage() {
         ? "text-yellow-400"
         : "text-red-500";
 
+    // Pull out levels (ensure keys 1..3 exist)
     const levels = result.levels || {
       1: { score: 0, matches: 0, attempts: 0, accuracy: 0 },
       2: { score: 0, matches: 0, attempts: 0, accuracy: 0 },
@@ -434,7 +437,7 @@ export default function DementiaTestPage() {
 
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-black text-white p-6">
-        <h1 className="text-5xl font-bold mb-4 text-black">
+        <h1 className="text-5xl font-bold mb-4 text-yellow-400">
           {isHindi ? "टेस्ट पूरा हुआ" : "Test Complete"}
         </h1>
         <p className="text-2xl mb-4">
@@ -446,6 +449,7 @@ export default function DementiaTestPage() {
           {isHindi ? `परिणाम: ${result.status}` : `Result: ${result.status}`}
         </p>
 
+        {/* NEW: Per-level breakdown */}
         <div className="w-full max-w-md bg-gray-900/50 p-4 rounded-lg">
           <h2 className="text-xl font-semibold mb-3 text-yellow-300">
             {isHindi ? "स्तर अनुसार विवरण" : "Per-level details"}

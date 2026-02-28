@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import ParkinsonsTest from "../pages/ParkinsonsTest.jsx";
 import DementiaTest from "../pages/DementiaTest.jsx";
-import VisionTest from "../pages/VisionTest.jsx";
+import VisionTest from "../pages/VisionTest.jsx";   // ⬅ NEW TEST
 
 import TherapyPage from "./TherapyPage.jsx";
 
@@ -33,7 +33,7 @@ export default function TestRouter() {
     );
   }
 
-  // TEST MODE
+  // TEST MODE (route based on disease)
   switch (disease) {
     case "parkinsons":
       return <ParkinsonsTest onFinish={handleFinish} />;
@@ -41,7 +41,7 @@ export default function TestRouter() {
     case "dementia":
       return <DementiaTest onFinish={handleFinish} />;
 
-    case "vision":
+    case "vision": // ⬅ NEW DISEASE TEST
       return <VisionTest onFinish={handleFinish} />;
 
     default:

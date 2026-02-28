@@ -95,7 +95,7 @@ export default function DementiaTherapy({ onFinish }) {
           gridSize,
           correctAnswers: matched.length / 2,
           mistakes,
-          time: roundedTime,
+          time: roundedTime, // store total time as float (seconds)
         },
       },
     };

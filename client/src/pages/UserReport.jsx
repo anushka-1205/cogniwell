@@ -122,6 +122,8 @@ export default function UserReport() {
 
       if (mode === "therapy") {
         if (disease === "vision") {
+          // Vision therapy now stores results under metrics.vision (preferred),
+          // but we gracefully fall back to metrics.therapy if present.
           const therapyMetrics = m?.vision ?? m?.therapy ?? {};
           const finalThreshold = therapyMetrics?.finalThreshold ?? therapyMetrics?.threshold ?? null;
           const correct = therapyMetrics?.correctAnswers ?? therapyMetrics?.correct ?? therapyMetrics?.correctCount ?? null;
@@ -195,6 +197,7 @@ export default function UserReport() {
       }
 
       if (disease === "vision") {
+        // For detection we keep preferring metrics.vision (detection)
         const detection = m.vision || {};
         const therapy = m.therapy || {};
         if (mode === "detection") {
@@ -203,6 +206,7 @@ export default function UserReport() {
           return { value: typeof val === "number" ? val : (val ? Number(val) : null), unit: isHindi ? "सही" : "correct", extra: attempts ? `attempts: ${attempts}` : null };
         }
         if (mode === "therapy") {
+          // prefer metrics.vision for therapy as well (we wrote therapy under metrics.vision)
           const therapyMetrics = m.vision ?? m.therapy ?? {};
           const finalThreshold = therapyMetrics?.finalThreshold ?? therapyMetrics?.threshold ?? null;
           const correct = therapyMetrics?.correctAnswers ?? therapyMetrics?.correct ?? null;

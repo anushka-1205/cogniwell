@@ -1,18 +1,11 @@
-import GameSession from "../models/GameSession.js";
 import Caregiver from "../models/Caregiver.js";
 import User from "../models/User.js";
-import jwt from "jsonwebtoken";
-import "dotenv/config";
+import GameSession from "../models/GameSession.js";
 
-//  GET /api/caregiver/elders
+// GET /api/caregiver/elders
 export const getElders = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(" ")[1];
-    if (!token) return res.status(401).json({ success: false, message: "No token" });
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const caregiverId = decoded.id;
+    const caregiverId = req.caregiverId;
 
     const caregiver = await Caregiver.findById(caregiverId).populate(
       "elders",
@@ -28,24 +21,19 @@ export const getElders = async (req, res) => {
       elders: caregiver.elders,
     });
   } catch (error) {
-    console.error(" getElders error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
+    console.error(error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
-//  GET /api/caregiver/elder/:elderId/sessions
+// GET /api/caregiver/elder/:elderId/sessions
 export const getElderSessions = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(" ")[1];
-    if (!token) return res.status(401).json({ success: false, message: "No token" });
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const caregiverId = decoded.id;
-
+    const caregiverId = req.caregiverId;
     const { elderId } = req.params;
-    const caregiver = await Caregiver.findById(caregiverId);
 
+    // Verify caregiver actually linked to this elder
+    const caregiver = await Caregiver.findById(caregiverId);
     if (!caregiver) {
       return res.json({ success: false, message: "Caregiver not found" });
     }
@@ -57,6 +45,7 @@ export const getElderSessions = async (req, res) => {
       });
     }
 
+    // Fetch all game sessions for this elder (both Parkinson & Dementia)
     const sessions = await GameSession.find({ user: elderId })
       .sort({ createdAt: -1 })
       .select("-__v")
@@ -64,7 +53,7 @@ export const getElderSessions = async (req, res) => {
 
     return res.json({ success: true, sessions });
   } catch (error) {
-    console.error(" getElderSessions error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
+    console.error(error.message);
+    res.json({ success: false, message: error.message });
   }
 };

@@ -104,7 +104,7 @@ export default function ParkinsonsTestPage() {
   };
 
   const handleTherapyFinish = () => {
-    // alert(isHindi ? "थेरेपी सत्र पूरा हुआ!" : "Therapy session completed!");
+    alert(isHindi ? "थेरेपी सत्र पूरा हुआ!" : "Therapy session completed!");
     setShowTherapy(false);
     setShowReady(true);
   };

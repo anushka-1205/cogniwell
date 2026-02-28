@@ -4,6 +4,6 @@ import { recordSession } from "../controllers/gamesessionController.js";
 
 const router = express.Router();
 
-router.post("/record", recordSession);
+router.post("/record", authUser, recordSession);
 
 export default router;

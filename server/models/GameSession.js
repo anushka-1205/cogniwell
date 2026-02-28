@@ -5,7 +5,7 @@ const gameSessionSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     diseaseType: { 
       type: String, 
-      enum: ["parkinson", "dementia", "vision"], 
+      enum: ["parkinson", "dementia","vision"], 
       required: true 
     },
     mode: { 
