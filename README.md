@@ -6,12 +6,25 @@ CogniWell is a full-stack web application designed to support caregivers and use
 
 ## 🧠 Features
 
-- **Cognitive Tests & Therapy**: Modules for dementia, Parkinson's, and vision tests and therapy activities.
-- **Questionnaires**: Collects user responses that can help track progress.
-- **Reporting**: User reports generated based on test results.
-- **Session Management**: Game sessions are tracked and stored.
-- **User Authentication**: Separate login flows for caregivers and users.
-- **Role-based Authorization**: Middleware enforces access control for caregivers and users.
+- **Comprehensive Screening & Therapy**: Offers modules covering motor skills, memory, and visual
+detection across cognitive domains. The system includes tests and therapy activities with
+threshold‑based risk labeling (Red/Yellow/Green).
+
+- **Self‑Administered Assessments**: Patients can complete assessments independently, while
+data streams to caregivers in real time. This allows simultaneous monitoring of dozens of users
+from a single dashboard.
+
+- **Caregiver Visibility**: Dashboards give caregivers quick access to recent therapy sessions,
+progress reports, risk status, and questionnaire results enabling proactive support without constant manual checking.
+
+- **Elder‑Friendly, Bilingual UI**: The interface is optimized for older adults with clear navigation
+and large elements, and it supports both Hindi and English to cater to a diverse user base.
+
+- **Automated Session Tracking**: Game sessions are recorded and scored automatically, ensuring
+consistent therapy activation based on predefined thresholds.
+
+- **Secure Authentication**: Role‑based access control differentiates between patients and
+caregivers, using JWT tokens and middleware to protect sensitive routes and data.
 
 ---
 
