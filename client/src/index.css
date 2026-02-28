@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+*{
+    font-family: sans-serif; 
+}
+
+
+@theme {
+    --color-primary: #4fbf8b;
+    --color-primary-dull: #44ae7c;
+}
+.uniform-btn {
+  @apply bg-yellow-500 hover:bg-yellow-400 text-black font-semibold text-3xl rounded-2xl shadow-lg transition-transform transform hover:scale-105;
+  width: 320px;
+  padding: 1.25rem 0; /* Equal vertical padding */
+  margin-bottom: 2rem;
+}
