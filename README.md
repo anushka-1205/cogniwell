@@ -1,6 +1,6 @@
-# 🩺 Cogniwell
+# 🩺 CogniWell
 
-Cogniwell is a full-stack web application designed to support caregivers and users with cognitive challenges such as Dementia, Parkinson's disease, and vision impairments. The application provides tests, therapy sessions, and questionnaires tailored to these conditions, along with user and caregiver authentication.
+CogniWell is a full-stack web application designed to support caregivers and users with cognitive challenges such as Dementia, Parkinson's disease, and vision impairments. The application provides tests, therapy sessions, and questionnaires tailored to these conditions, along with user and caregiver authentication.
 
 ---
 
@@ -57,8 +57,8 @@ package.json         # Root project dependencies and scripts
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/anushka-1205/cogniwell.git
-   cd cogniwell
+   git clone https://github.com/anushka-1205/CogniWell.git
+   cd CogniWell
    ```
 2. Install dependencies for both client and server:
    ```bash
@@ -92,7 +92,7 @@ Access the frontend at `http://localhost:5173` (or port from Vite config).
 ## ☁️ Deployment
 
 This project is deployed using **Vercel** and is live at:
-[https://cogniwell.vercel.app](https://cogniwell.vercel.app/)
+[https://CogniWell.vercel.app](https://CogniWell.vercel.app/)
 
 ---
 
